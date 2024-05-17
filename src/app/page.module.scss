@@ -158,18 +158,17 @@
 
   .description {
     font-size: 0.8rem;
-  }
 
-  .description a {
-    padding: 1rem;
-  }
+    a {
+      padding: 1rem;
+    }
 
-  .description p,
-  .description div {
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    width: 100%;
+    p,div {
+      display: flex;
+      justify-content: center;
+      position: fixed;
+      width: 100%;
+    }
   }
 
   .description p {
