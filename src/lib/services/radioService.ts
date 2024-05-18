@@ -1,3 +1,5 @@
+import "server-only";
+
 import type { GetRadioStationsResponse, RadioStationInfo } from "../types";
 
 import { getData } from "./http";

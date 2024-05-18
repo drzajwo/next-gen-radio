@@ -1,14 +1,12 @@
-import { ThemeProvider } from "@mui/material";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import StoreProvider from "./StoreProvider";
-
+import "@mantine/core/styles.css";
 import "./globals.css";
 
-import { AppBar } from "@/components";
+import { AppShell } from "@/components";
 import { CommonLocales, commonLocales } from "@/locales";
-import { darkTheme } from "@/styles/theme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,13 +22,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body className={inter.className}>
-        <StoreProvider>
-          <ThemeProvider theme={darkTheme}>
-            <AppBar title={commonLocales[CommonLocales.TITLE]} />
+        <MantineProvider defaultColorScheme="dark">
+          <AppShell title={commonLocales[CommonLocales.TITLE]}>
             {children}
-          </ThemeProvider>
-        </StoreProvider>
+          </AppShell>
+        </MantineProvider>
       </body>
     </html>
   );
