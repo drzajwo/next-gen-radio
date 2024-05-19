@@ -1,11 +1,15 @@
 import styles from "./page.module.scss";
 
-import { RadioStationList } from "@/components";
+import { MiniPlayer, RadioStationList } from "@/components";
+import { AudioProvider } from "@/contexts";
 
 export default function Home() {
   return (
     <main className={styles.main}>
-      <RadioStationList />
+      <AudioProvider>
+        <RadioStationList />
+        <MiniPlayer />
+      </AudioProvider>
     </main>
   );
 }

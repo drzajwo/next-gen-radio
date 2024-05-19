@@ -1,15 +1,7 @@
 import type { FunctionComponent } from "react";
-import {
-  Badge,
-  Button,
-  Card,
-  CardSection,
-  Group,
-  Image,
-  Title,
-} from "@mantine/core";
+import { Badge, Card, CardSection, Group, Image, Title } from "@mantine/core";
 
-import classes from "./RadioStationCard.module.scss";
+import { RadioControls } from "./components";
 
 import type { RadioStationInfo } from "@/lib/types";
 
@@ -20,14 +12,15 @@ interface RadioStationCardProps {
 export const RadioStationCard: FunctionComponent<RadioStationCardProps> = ({
   radioStationInfo,
 }) => {
+  const { name, imgUrl } = radioStationInfo;
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <CardSection>
-        <Image src={radioStationInfo.imgUrl} alt="Norway" />
+        <Image src={imgUrl} alt="Norway" />
       </CardSection>
 
       <Group justify="space-between" mt="md" mb="xs">
-        <Title order={4}>{radioStationInfo.name}</Title>
+        <Title order={4}>{name}</Title>
         <Badge color="pink">Rates ETC.</Badge>
       </Group>
 
@@ -35,17 +28,7 @@ export const RadioStationCard: FunctionComponent<RadioStationCardProps> = ({
         {radioStationInfo.description}
       </Text> */}
 
-      <div className={classes.buttonContainer}>
-        <Button
-          color="blue"
-          fullWidth
-          mt="md"
-          radius="md"
-          // TODO: open modal on click
-        >
-          Details
-        </Button>
-      </div>
+      <RadioControls radioStationInfo={radioStationInfo} />
     </Card>
   );
 };
