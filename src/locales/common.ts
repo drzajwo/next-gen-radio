@@ -15,7 +15,7 @@ export enum CommonLocales {
 }
 
 export const commonLocales: Record<CommonLocales, string> = {
-  [CommonLocales.TITLE]: "Next gen radio",
+  [CommonLocales.TITLE]: "\\../ Next.gen Radio \\../",
   [CommonLocales.DESCRIPTION]:
     "This is aspiring next generation online radio to listen anywhere!",
   [CommonLocales.PLAY]: "Play",

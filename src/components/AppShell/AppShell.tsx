@@ -6,6 +6,8 @@ import {
   Title,
 } from "@mantine/core";
 
+import classes from "./AppShell.module.scss";
+
 interface AppBarProps {
   children: ReactNode;
   title: string;
@@ -17,8 +19,10 @@ export const AppShell: FunctionComponent<AppBarProps> = ({
 }) => {
   return (
     <MantineAppShell header={{ height: 60 }} padding="md">
-      <AppShellHeader>
-        <Title order={1}>{title}</Title>
+      <AppShellHeader className={classes.header}>
+        <Title className={classes.title} order={1}>
+          {title}
+        </Title>
       </AppShellHeader>
 
       <AppShellMain>{children}</AppShellMain>
