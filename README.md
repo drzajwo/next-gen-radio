@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Description: 
+This is an interview assessment task for TuneIn.
+This project is SPA which consumes one enpoint and displays radio stations list.
 
-## Getting Started
+Project UI is based on grid item so it is scaling very well when it comes to client browser width.
 
-First, run the development server:
+For each radio station user can display details which consist description, rating and tags.
+
+At the beginning I've started with Redux and MaterialUI (can be seen in git commits history). While working I decided to change path, MaterialUI which is no longer maintained like it used to be (at least for next.js) was replaced with more suitable library *Mantine*.
+Redux was setup and and running but since this project is so small I decided to remove it, general data load is done with *Next.js* async data loading, so main page can remain SSR. On further development I'd consider introducing context to store the list data for client side components.
+
+Audio manager is kept in Context provider (*AudioContext*) because of ease of use and and for such thing I think this is a perfect choice. Because in clean architecture it behaves like a single source of truth.
+
+## TODO list:  
+* Create more tests (only setup Jest and created one test)
+* Implement list filtering and sorting - for that there is need to create client side context or setup Redux
+* When above item is done then adding next/previous station buttons is a piece of cake
+* When thinking about more data to come we can implement pagination or infinite scroll with lazy loading (images)
+
+## Tech stack
+* Next.js 14.2.3 with TypeScript
+* React 18
+* Mantine for the UI
+* Tabler for icons
+* Jest for testing
+* SCSS modules for styling
+
+## Starting the project
+
+Run the development server:
 
 ```bash
+# installing dependencies
+npm i
+# running dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# running tests
+npm run test
+# linting
+npm run lint
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
