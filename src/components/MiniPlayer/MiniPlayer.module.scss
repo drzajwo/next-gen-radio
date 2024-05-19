@@ -11,3 +11,17 @@
     left: 1rem;
     gap: 1rem;
 }
+
+.volumeControl {
+    width: 10rem;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    right: 1rem;
+    gap: 1rem;
+
+    .slider {
+        width: 100%;
+    }
+}

@@ -1,12 +1,17 @@
 "use client";
 
 import { useContext } from "react";
-import { ActionIcon, AppShellFooter, Flex, Image, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  AppShellFooter,
+  Flex,
+  Image,
+  Slider,
+  Text,
+} from "@mantine/core";
 import {
   IconPlayerPause,
   IconPlayerPlay,
-  IconPlayerSkipBack,
-  IconPlayerSkipForward,
   IconPlayerStop,
 } from "@tabler/icons-react";
 
@@ -27,6 +32,8 @@ export const MiniPlayer = () => {
     currentPlayingTime,
     hasPlaybackError,
     radioInfo,
+    volume,
+    setVolume,
   } = useContext(AudioContext);
 
   return (
@@ -49,13 +56,6 @@ export const MiniPlayer = () => {
         <Text className={classes.timeContainer} size="lg">
           {toColonTime(currentPlayingTime)}
         </Text>
-        <ActionIcon
-          size={42}
-          variant="default"
-          aria-label={commonLocales[CommonLocales.SKIP_BACK]}
-        >
-          <IconPlayerSkipBack />
-        </ActionIcon>
         {isPaused ? (
           <ActionIcon
             size={42}
@@ -73,6 +73,7 @@ export const MiniPlayer = () => {
             variant="default"
             aria-label={commonLocales[CommonLocales.PAUSE]}
             onClick={pause}
+            loading={isBuffering}
             disabled={hasPlaybackError}
           >
             <IconPlayerPause />
@@ -86,13 +87,15 @@ export const MiniPlayer = () => {
         >
           <IconPlayerStop />
         </ActionIcon>
-        <ActionIcon
-          size={42}
-          variant="default"
-          aria-label={commonLocales[CommonLocales.SKIP_FORWARD]}
-        >
-          <IconPlayerSkipForward />
-        </ActionIcon>
+        <div className={classes.volumeControl}>
+          <Text size="sm">{commonLocales[CommonLocales.VOLUME]}</Text>
+          <Slider
+            className={classes.slider}
+            color="blue"
+            value={volume}
+            onChange={setVolume}
+          />
+        </div>
       </Flex>
     </AppShellFooter>
   );

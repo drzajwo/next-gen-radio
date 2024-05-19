@@ -25,7 +25,8 @@ interface AudioContextType {
   isBuffering: boolean;
   isPaused: boolean;
   hasPlaybackError: boolean;
-  // TODO: volume
+  volume: number;
+  setVolume: (newVolume: number) => void;
 }
 
 export const AudioContext = createContext<AudioContextType>({
@@ -39,6 +40,8 @@ export const AudioContext = createContext<AudioContextType>({
   isBuffering: false,
   isPaused: true,
   hasPlaybackError: false,
+  volume: 100,
+  setVolume: () => {},
 });
 
 export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
@@ -50,6 +53,7 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
   const [isBuffering, setIsBuffering] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
   const [hasPlaybackError, setHasPlaybackError] = useState(false);
+  const [audioVolume, setAudioVolume] = useState(100);
 
   const playRadioStation = (radioStationInfo: RadioStationInfo) => {
     if (audio.current) {
@@ -57,6 +61,7 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
     }
     setRadioInfo(radioStationInfo);
     audio.current = new Audio(radioStationInfo.streamUrl);
+    setVolume(audioVolume);
     play();
     setListeners();
   };
@@ -96,6 +101,7 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
     if (!audio.current || !audio.current.paused) {
       return;
     }
+    setIsBuffering(true);
     setIsPaused(false);
     audio.current.play();
   };
@@ -106,6 +112,13 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
     }
     setIsPaused(true);
     audio.current.pause();
+  };
+
+  const setVolume = (newVolume: number) => {
+    setAudioVolume(newVolume);
+    if (audio.current) {
+      audio.current.volume = newVolume / 100;
+    }
   };
 
   const value = {
@@ -119,6 +132,8 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
     isBuffering,
     isPaused,
     hasPlaybackError,
+    volume: audioVolume,
+    setVolume,
   };
   return (
     <AudioContext.Provider value={value}>{children}</AudioContext.Provider>
