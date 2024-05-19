@@ -4,6 +4,7 @@ export interface GetRadioStationsResponse {
 
 export interface RadioStationInfo {
   id: string;
+  namedId?: string;
   description: string;
   name: string;
   imgUrl: string;

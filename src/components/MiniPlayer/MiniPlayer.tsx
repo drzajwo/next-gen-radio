@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext } from "react";
-import { ActionIcon, AppShellFooter, Flex } from "@mantine/core";
+import { ActionIcon, AppShellFooter, Flex, Image, Text } from "@mantine/core";
 import {
   IconPlayerPause,
   IconPlayerPlay,
@@ -9,6 +9,8 @@ import {
   IconPlayerSkipForward,
   IconPlayerStop,
 } from "@tabler/icons-react";
+
+import classes from "./MiniPlayer.module.scss";
 
 import { AudioContext } from "@/contexts";
 import { toColonTime } from "@/lib/helpers";
@@ -23,6 +25,8 @@ export const MiniPlayer = () => {
     isPaused,
     isBuffering,
     currentPlayingTime,
+    hasPlaybackError,
+    radioInfo,
   } = useContext(AudioContext);
 
   return (
@@ -36,7 +40,15 @@ export const MiniPlayer = () => {
         direction="row"
         wrap="nowrap"
       >
-        {toColonTime(currentPlayingTime)}
+        <div className={classes.radioInfoContainer}>
+          <Image src={radioInfo?.imgUrl} alt={radioInfo?.name} height={75} />
+          <Text className={classes.timeContainer} size="sm">
+            {radioInfo?.name}
+          </Text>
+        </div>
+        <Text className={classes.timeContainer} size="lg">
+          {toColonTime(currentPlayingTime)}
+        </Text>
         <ActionIcon
           size={42}
           variant="default"
@@ -51,6 +63,7 @@ export const MiniPlayer = () => {
             aria-label={commonLocales[CommonLocales.PLAY]}
             onClick={play}
             loading={isBuffering}
+            disabled={hasPlaybackError}
           >
             <IconPlayerPlay />
           </ActionIcon>
@@ -60,6 +73,7 @@ export const MiniPlayer = () => {
             variant="default"
             aria-label={commonLocales[CommonLocales.PAUSE]}
             onClick={pause}
+            disabled={hasPlaybackError}
           >
             <IconPlayerPause />
           </ActionIcon>

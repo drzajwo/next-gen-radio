@@ -9,7 +9,10 @@ export enum CommonLocales {
   DETAILS = "DETAILS",
   START_LISTENING = "START_LISTENING",
   CURRENTLY_PLAYING = "CURRENTLY_PLAYING",
+  PLAYBACK_ERROR = "PLAYBACK_ERROR",
   STOP_LISTENING = "STOP_LISTENING",
+  RELIABILITY = "RELIABILITY",
+  POPULARITY = "POPULARITY",
 }
 
 export const commonLocales: Record<CommonLocales, string> = {
@@ -24,5 +27,8 @@ export const commonLocales: Record<CommonLocales, string> = {
   [CommonLocales.DETAILS]: "Details",
   [CommonLocales.START_LISTENING]: "Start listening",
   [CommonLocales.CURRENTLY_PLAYING]: "Playing...",
+  [CommonLocales.PLAYBACK_ERROR]: "Error",
   [CommonLocales.STOP_LISTENING]: "Stop listening",
+  [CommonLocales.RELIABILITY]: "Reliability score:",
+  [CommonLocales.POPULARITY]: "Popularity score:",
 };

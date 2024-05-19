@@ -13,7 +13,10 @@ export const getRadioStations = async (): Promise<RadioStationInfo[]> => {
       `${TUNE_IN_BASE_URL}/stations.json`,
     );
 
-    return data;
+    return data.map((radioInfo) => ({
+      ...radioInfo,
+      namedId: `${radioInfo.name}_${radioInfo?.id}`,
+    }));
   } catch (e) {
     return [];
   }

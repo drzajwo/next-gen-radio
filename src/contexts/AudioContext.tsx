@@ -16,6 +16,7 @@ interface AudioProviderProps {
 
 interface AudioContextType {
   currentAudioId?: string;
+  radioInfo?: RadioStationInfo;
   currentPlayingTime: number;
   playRadioStation: (radioStationInfo: RadioStationInfo) => void;
   resetAudio: () => void;
@@ -23,11 +24,13 @@ interface AudioContextType {
   pause: () => void;
   isBuffering: boolean;
   isPaused: boolean;
+  hasPlaybackError: boolean;
   // TODO: volume
 }
 
 export const AudioContext = createContext<AudioContextType>({
   currentAudioId: undefined,
+  radioInfo: undefined,
   currentPlayingTime: 0,
   playRadioStation: () => {},
   resetAudio: () => {},
@@ -35,16 +38,18 @@ export const AudioContext = createContext<AudioContextType>({
   pause: () => {},
   isBuffering: false,
   isPaused: true,
+  hasPlaybackError: false,
 });
 
 export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
   children,
 }) => {
   const audio = useRef<HTMLAudioElement | null>(null);
-  const [radioInfo, setRadioInfo] = useState<RadioStationInfo | null>(null);
+  const [radioInfo, setRadioInfo] = useState<RadioStationInfo | undefined>();
   const [seekTime, setSeekTime] = useState(0);
   const [isBuffering, setIsBuffering] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
+  const [hasPlaybackError, setHasPlaybackError] = useState(false);
 
   const playRadioStation = (radioStationInfo: RadioStationInfo) => {
     if (audio.current) {
@@ -61,7 +66,15 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
       return;
     }
     audio.current.onwaiting = () => setIsBuffering(true);
-    audio.current.onplaying = () => setIsBuffering(false);
+    audio.current.onplaying = () => {
+      setIsBuffering(false);
+      setHasPlaybackError(false);
+    };
+    audio.current.onerror = () => {
+      setIsPaused(true);
+      setIsBuffering(false);
+      setHasPlaybackError(true);
+    };
     audio.current.ontimeupdate = () => {
       if (!audio.current) {
         return;
@@ -72,8 +85,9 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
 
   const resetAudio = () => {
     pause();
-    setRadioInfo(null);
+    setRadioInfo(undefined);
     setIsPaused(true);
+    setHasPlaybackError(false);
     setSeekTime(0);
     audio.current = null;
   };
@@ -85,6 +99,7 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
     setIsPaused(false);
     audio.current.play();
   };
+
   const pause = () => {
     if (!audio.current || audio.current.paused) {
       return;
@@ -94,7 +109,8 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
   };
 
   const value = {
-    currentAudioId: radioInfo?.id,
+    currentAudioId: radioInfo?.namedId,
+    radioInfo,
     currentPlayingTime: seekTime,
     playRadioStation,
     resetAudio,
@@ -102,6 +118,7 @@ export const AudioProvider: FunctionComponent<AudioProviderProps> = ({
     pause,
     isBuffering,
     isPaused,
+    hasPlaybackError,
   };
   return (
     <AudioContext.Provider value={value}>{children}</AudioContext.Provider>
